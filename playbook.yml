@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - debug: msg="{{ item }}"
+      with_multiple:
+        - [1, 2, 3, 4, 5]
+        - apply: '{"nested_content": [item, "a", "b", "c"]}'
+#        - with_nested:
+#            - item
+#            - nested_content
