@@ -1,4 +1,4 @@
-import collections
+from itertools import chain
 
 from ansible.utils.plugins import lookup_loader
 from ansible.utils.template import template
@@ -9,9 +9,6 @@ class LookupModule(object):
         self.basedir = basedir
 
     def run(self, terms, inject=None, **kwargs):
-        print 'TERMS:', terms
-        print 'inject.keys():', inject.keys()
-        print 'kwargs:', kwargs
         items = [None]
         for command in terms:
             if isinstance(command, (list, basestring)):
@@ -33,8 +30,6 @@ class LookupModule(object):
                                     items, inject)
             else:
                 raise ValueError('Unknown lookup command: {}'.format(command))
-            items = list(items)
-            print items
 
         return list(items)
 
@@ -44,3 +39,9 @@ class LookupModule(object):
             if '{{' not in arg:
                 arg = '{{%s}}' % arg
             yield template(self.basedir, arg, dict(inject, item=item))
+
+    def _command_lookup(self, lookup_name, arg, items, inject):
+        """Apply a lookup plugin to items"""
+        lookup = lookup_loader.get(lookup_name, basedir=self.basedir)
+        context = dict(inject, items=list(items))
+        return lookup.run(arg, context)
