@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/ktosiek/ansible-nested-lookup.svg?branch=master)](https://travis-ci.org/ktosiek/ansible-nested-lookup)
+[![Coverage Status](https://coveralls.io/repos/ktosiek/ansible-nested-lookup/badge.png?branch=master)](https://coveralls.io/r/ktosiek/ansible-nested-lookup?branch=master)
+
+
 This plugin allows users to apply multiple lookups/transformations to data before using it in loop.
 
 Example

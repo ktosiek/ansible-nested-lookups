@@ -9,6 +9,8 @@ class LookupModule(object):
         self.basedir = basedir
 
     def run(self, terms, inject=None, **kwargs):
+        if inject is None:
+            inject = {}
         items = [None]
         for command in terms:
             if isinstance(command, (list, basestring)):
