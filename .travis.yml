@@ -15,6 +15,6 @@ install:
   - pip install pytest pytest-cov python-coveralls
 script:
   - ansible --version
-  - py.test --cov=.
+  - py.test --cov=tests.py --cov=lookup_plugins
 after_success:
   - coveralls
