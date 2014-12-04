@@ -1,4 +1,4 @@
-![Build Status](https://travis-ci.org/ktosiek/ansible-nested-lookups.svg?branch=master)](https://travis-ci.org/ktosiek/ansible-nested-lookups)
+[![Build Status](https://travis-ci.org/ktosiek/ansible-nested-lookups.svg?branch=master)](https://travis-ci.org/ktosiek/ansible-nested-lookups)
 [![Coverage Status](https://coveralls.io/repos/ktosiek/ansible-nested-lookups/badge.png?branch=master)](https://coveralls.io/r/ktosiek/ansible-nested-lookups?branch=master)
 
 
