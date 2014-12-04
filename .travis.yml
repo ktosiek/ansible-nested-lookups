@@ -9,8 +9,9 @@ install:
     if [ -n "$ANSIBLE_GIT" ]; then
       git clone --recursive https://github.com/ansible/ansible ~/ansible
       pip install ~/ansible
+    else
+      pip install ansible
     fi
-  - pip install -e .
   - pip install pytest pytest-cov python-coveralls
 script:
   - ansible --version
