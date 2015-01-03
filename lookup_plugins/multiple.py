@@ -16,10 +16,11 @@ class LookupModule(object):
         items = [None]
         for command in terms:
             if isinstance(command, (list, basestring)):
-                # Simple value - use _command_apply to template it
-                items = self._command_apply('apply', '{{item}}', [command], inject)
-                items = next(items)
+                # Simple value - use _command_items to template it
+                items = self._command_items('items', command, [], inject)
             elif isinstance(command, dict):
+                register_name = command.pop('register', None)
+
                 assert len(command) == 1
                 command_name = command.keys()[0]
                 command_arg = command.values()[0]
@@ -32,6 +33,9 @@ class LookupModule(object):
                 items = command_fun(command_name,
                                     command_arg,
                                     items, inject)
+
+                if register_name is not None:
+                    inject[register_name] = items
             else:
                 raise ValueError('Unknown lookup command: {}'.format(command))
 
@@ -56,8 +60,16 @@ class LookupModule(object):
             if decision:
                 yield item
 
+    def _command_items(self, command, arg, items, inject):
+        """Create new value of items by templating the arg"""
+        items = template(self.basedir, arg, inject)
+        assert isinstance(items, collections.Iterable)
+        return items
+
     def _command_lookup(self, lookup_name, arg, items, inject):
         """Apply a lookup plugin to items"""
         lookup = lookup_loader.get(lookup_name, basedir=self.basedir)
+        if lookup is None:
+            raise ValueError('Unknown lookup plugin: {}'.format(lookup_name))
         context = dict(inject, items=list(items))
         return lookup.run(arg, context)

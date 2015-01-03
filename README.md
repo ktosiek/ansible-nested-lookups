@@ -31,3 +31,5 @@ A step in with_multiple might be:
 * `raw list/string`: it will be templated without any fancy variables. Good as a first step.
 * `with_LOOKUP: ARG`: the specified lookup will get called with ARG as an argument, and with results of previous step in `items` variable
 * `apply: TEMPLATE`: each item from previous results will be replaced with rendered TEMPLATE. Value of the item being replaced is available as `item`.
+
+Additionaly, all steps can have `register: some_name` parameter, which will save the result of that step under both `items` and `some_name`.

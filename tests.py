@@ -46,3 +46,15 @@ def test_filter(lookup):
         {'with_items': [1, 2, 3, 4]},
         {'filter': 'item is odd'},
     ])
+
+
+def test_register(lookup):
+    assert ['a', 'b', 'c'] == lookup.run([
+        {'items': ['a', None, 'b', None, 'c'],
+         'register': 'base_items'},
+        {'items': [True, False, True, False, True],
+         'register': 'mask'},
+        {'with_together': ['base_items', 'mask']},
+        {'filter': 'item.1'},
+        {'apply': 'item.0'},
+    ])
