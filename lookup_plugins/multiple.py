@@ -1,6 +1,8 @@
+import collections
 from itertools import chain
 
 from ansible.utils.plugins import lookup_loader
+from ansible.utils import safe_eval
 from ansible.utils.template import template
 
 
@@ -41,6 +43,18 @@ class LookupModule(object):
             if '{{' not in arg:
                 arg = '{{%s}}' % arg
             yield template(self.basedir, arg, dict(inject, item=item))
+
+    def _command_filter(self, command, arg, items, inject):
+        """Return only the items for which filter is true"""
+        if '{{' not in arg:
+            arg = '{{%s}}' % arg
+        for item in items:
+            template_vars = dict(inject, item=item)
+            decision = safe_eval(
+                template(self.basedir, arg, template_vars),
+                locals=template_vars)
+            if decision:
+                yield item
 
     def _command_lookup(self, lookup_name, arg, items, inject):
         """Apply a lookup plugin to items"""

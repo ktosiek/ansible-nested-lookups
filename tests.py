@@ -39,3 +39,10 @@ def test_external_lookup(lookup):
             ['1', '2'],
         ]},
     ])
+
+
+def test_filter(lookup):
+    assert [1, 3] == lookup.run([
+        {'with_items': [1, 2, 3, 4]},
+        {'filter': 'item is odd'},
+    ])
